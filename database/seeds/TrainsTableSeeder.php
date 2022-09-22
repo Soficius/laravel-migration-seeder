@@ -1,6 +1,7 @@
 <?php
 
 use App\Trains;
+use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 
 class TrainsTableSeeder extends Seeder
@@ -10,19 +11,22 @@ class TrainsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
-        $train = new Trains();
+        for ($i = 0; $i < 10; $i++) {
 
-        $train->azienda = 'trenord';
-        $train->stazione_partenza = 'Milano';
-        $train->stazione_arrivo = 'Roma';
-        $train->orario_partenza = '2022-10-10 16:00:00';
-        $train->orario_arrivo = '2022-10-10 20:00:00';
-        $train->codice_treno = 324353;
-        $train->numero_carrozze = 3;
-        $train->stato_treno = 'in orario';
+            $train = new Trains();
 
-        $train->save();
+            $train->azienda = $faker->company();
+            $train->stazione_partenza = $faker->city();
+            $train->stazione_arrivo = $faker->city();
+            $train->orario_partenza = $faker->dateTime();
+            $train->orario_arrivo = $faker->dateTime();
+            $train->codice_treno = $faker->ean8();
+            $train->numero_carrozze = $faker->randomDigitNotNull();
+            $train->stato_treno = $faker->boolean();
+
+            $train->save();
+        }
     }
 }
